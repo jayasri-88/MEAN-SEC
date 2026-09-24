@@ -1,4 +1,4 @@
-git commit -m "initial commit"import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { StudentService, Student } from '../../services/student';
 import { environment } from '../../../environments/environment';

@@ -67,7 +67,6 @@ PORT=3001
 MONGO_URI=mongodb://127.0.0.1:27017/meanlab
 JWT_SECRET=change_this_in_production
 USE_MEMORY_SERVER=true        # false → uses MONGO_URI / Atlas
-FRONTEND_URL=                 # set in production e.g. https://your-app.vercel.app
 ```
 
 ---
