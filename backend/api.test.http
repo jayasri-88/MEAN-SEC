@@ -1,0 +1,74 @@
+### Capstone Backend - Thunder Client / REST Client tests (http://localhost:3001)
+### All protected routes need Authorization: Bearer <token> after login
+
+### Health
+GET http://localhost:3001/
+GET http://localhost:3001/api/health
+
+### Auth - Register
+POST http://localhost:3001/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "test@sec.edu",
+  "password": "test123"
+}
+
+### Auth - Login (get token)
+POST http://localhost:3001/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@sec.edu",
+  "password": "admin123"
+}
+
+### Auth - Profile (protected)
+GET http://localhost:3001/api/auth/profile
+Authorization: Bearer REPLACE_WITH_TOKEN
+
+### Students - List (public)
+GET http://localhost:3001/api/students
+
+### Students - Create (protected)
+POST http://localhost:3001/api/students
+Content-Type: application/json
+Authorization: Bearer REPLACE_WITH_TOKEN
+
+{
+  "name": "New Student",
+  "branch": "DS",
+  "email": "newstudent@sec.edu"
+}
+
+### Students - Update (protected)
+PUT http://localhost:3001/api/students/REPLACE_ID
+Content-Type: application/json
+Authorization: Bearer REPLACE_WITH_TOKEN
+
+{
+  "branch": "CSE"
+}
+
+### Students - Delete (protected)
+DELETE http://localhost:3001/api/students/REPLACE_ID
+Authorization: Bearer REPLACE_WITH_TOKEN
+
+### Upload - Generic file (protected) - use Thunder Client Form Data
+POST http://localhost:3001/api/upload
+Authorization: Bearer REPLACE_WITH_TOKEN
+Content-Type: multipart/form-data
+# field: file = <choose file>
+
+### Upload - Student avatar (protected)
+POST http://localhost:3001/api/students/REPLACE_ID/avatar
+Authorization: Bearer REPLACE_WITH_TOKEN
+Content-Type: multipart/form-data
+# field: file
+
+### Legacycompat - Exp4 route
+GET http://localhost:3001/students
+
+### Legacy compat - verify CORS with Angular
+# Angular will call http://localhost:3001/api/students

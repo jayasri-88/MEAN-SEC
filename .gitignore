@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment secrets
+backend/.env
+!backend/.env.example
+
+# Angular build output
+frontend/dist/
+frontend/.angular/cache/
+frontend/out-tsc/
+
+# Backend build artifacts served from backend/public (ng build output)
+backend/public/
+
+# Uploaded files
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Zip artifacts
+*.zip
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,44 @@
+<div style="padding:1.5rem;max-width:900px;margin:auto">
+  <h2>Students</h2>
+
+  @if (loading) {
+    <p>Loading...</p>
+  }
+
+  @if (error) {
+    <p style="color:#dc2626">{{ error }}</p>
+  }
+
+  @if (!loading && students.length === 0) {
+    <p>No students found. <a routerLink="/add-student">Add one</a></p>
+  }
+
+  <ul style="list-style:none;padding:0">
+    @for (student of students; track student._id) {
+      <li style="border:1px solid #e2e8f0;padding:1rem;margin-bottom:0.75rem;border-radius:6px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <strong>{{ student.name }}</strong> — {{ student.branch }}<br />
+          <small>{{ student.email }}</small>
+          @if (selectedStudent === student.name) {
+            <span style="background:#dbeafe;padding:2px 6px;border-radius:4px;margin-left:8px;font-size:0.8rem">Selected</span>
+          }
+        </div>
+        <div style="display:flex;gap:0.5rem;align-items:center">
+          <button (click)="selectStudent(student.name)" style="padding:0.4rem 0.6rem">Select</button>
+          <a [routerLink]="['/edit-student', student._id]" style="padding:0.4rem 0.6rem;background:#f59e0b;color:white;text-decoration:none;border-radius:4px">Edit</a>
+          <button (click)="deleteStudent(student._id!)" style="background:#ef4444;color:white;border:none;padding:0.4rem 0.6rem;border-radius:4px;cursor:pointer">Delete</button>
+          <label style="cursor:pointer;background:#6366f1;color:white;padding:0.4rem 0.6rem;border-radius:4px">
+            Upload
+            <input type="file" (change)="uploadAvatar(student._id!, $event)" style="display:none" />
+          </label>
+        </div>
+      </li>
+    }
+  </ul>
+
+  @if (selectedStudent) {
+    <p>Selected: {{ selectedStudent }}</p>
+  }
+
+  <p style="margin-top:1rem"><small>Demonstrates &#64;for, &#64;if, interpolation, property &amp; event binding, &#64;Input/&#64;Output via parent-child (Selected). Backend: {{ apiUrl }}</small></p>
+</div>

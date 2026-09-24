@@ -1,0 +1,23 @@
+<div style="max-width:420px;margin:2rem auto;padding:1.5rem;border:1px solid #e2e8f0;border-radius:8px">
+  <h2>Register</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div style="margin-bottom:1rem">
+      <label>Name</label><br />
+      <input formControlName="name" style="width:100%;padding:0.5rem" placeholder="Your Name" />
+      @if (form.controls.name.touched && form.controls.name.invalid) { <small style="color:#dc2626">Name required (min 3)</small> }
+    </div>
+    <div style="margin-bottom:1rem">
+      <label>Email</label><br />
+      <input formControlName="email" style="width:100%;padding:0.5rem" placeholder="you@sec.edu" />
+      @if (form.controls.email.touched && form.controls.email.invalid) { <small style="color:#dc2626">Valid email required</small> }
+    </div>
+    <div style="margin-bottom:1rem">
+      <label>Password</label><br />
+      <input type="password" formControlName="password" style="width:100%;padding:0.5rem" />
+      @if (form.controls.password.touched && form.controls.password.invalid) { <small style="color:#dc2626">Min 6 characters</small> }
+    </div>
+    @if (error) { <p style="color:#dc2626">{{ error }}</p> }
+    <button type="submit" [disabled]="loading" style="width:100%;background:#16a34a;color:white;padding:0.6rem;border:none;border-radius:4px;cursor:pointer">{{ loading ? 'Registering...' : 'Register' }}</button>
+  </form>
+  <p><a routerLink="/login">Already have account? Login</a></p>
+</div>

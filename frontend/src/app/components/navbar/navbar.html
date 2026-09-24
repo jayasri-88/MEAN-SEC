@@ -1,0 +1,10 @@
+<nav style="background:#334155;padding:0.75rem;display:flex;gap:1rem">
+  <a routerLink="/" style="color:white;text-decoration:none">Home</a>
+  <a routerLink="/students" style="color:white;text-decoration:none">Students</a>
+  <a routerLink="/add-student" style="color:white;text-decoration:none">Add Student</a>
+  <a routerLink="/login" style="color:white;text-decoration:none">Login</a>
+  <a routerLink="/register" style="color:white;text-decoration:none">Register</a>
+  @if (auth.isLoggedIn()) {
+    <button (click)="logout()" style="margin-left:auto;background:#ef4444;color:white;border:none;padding:0.4rem 0.8rem;cursor:pointer">Logout</button>
+  }
+</nav>
