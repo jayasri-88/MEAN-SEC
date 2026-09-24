@@ -1,58 +1,141 @@
-# Capstone: Student Management System - Unified MEAN Project
-## R24MSCSL009 - Modern Angular 21 + Express + MongoDB + JWT + Multer
+# Student Management System — MEAN Stack Capstone
+**R24MSCSL009** | Angular 21 · Express 4 · MongoDB · JWT · Multer
 
-### Structure
+---
+
+## Project Structure
+
+```
 mean-project/
-+-- backend/
-�   +-- config/db.js, multer.js
-�   +-- middleware/auth.js
-�   +-- models/Student.js, User.js
-�   +-- routes/auth.js, students.js, upload.js
-�   +-- uploads/ (Multer)
-�   +-- public/browser/ (ng build output)
-�   +-- server.js (CORS, static, PORT env)
-�   +-- .env / .env.example
-�   +-- api.test.http
-+-- frontend/
-    +-- src/app/components/header,navbar
-    +-- src/app/pages/home,student-list,student-form,login,register
-    +-- src/app/services/student.ts, auth.ts, auth-interceptor.ts
-    +-- src/app/guards/auth-guard.ts
-    +-- src/app/app.routes.ts (authGuard on add/edit)
-    +-- src/environments/environment.ts (apiUrl localhost:3001/api)
-    +-- dist/frontend/browser (after ng build)
+├── backend/
+│   ├── config/          db.js, multer.js
+│   ├── middleware/       auth.js (JWT verify)
+│   ├── models/           Student.js, User.js
+│   ├── routes/           auth.js, students.js, upload.js
+│   ├── uploads/          Multer file storage
+│   ├── public/browser/   Angular build output (ng build)
+│   ├── server.js
+│   ├── seed.js
+│   ├── .env              (gitignored)
+│   ├── .env.example
+│   └── api.test.http
+└── frontend/
+    └── src/app/
+        ├── components/   header/, navbar/
+        ├── pages/        home/, login/, register/, student-list/, student-form/
+        ├── services/     student.ts, auth.ts, auth-interceptor.ts
+        ├── guards/       auth-guard.ts
+        └── app.routes.ts
+```
 
-### Quick Start (Local)
-# Terminal 1 - Backend 3001 (memory or Atlas)
+---
+
+## Quick Start
+
+**Terminal 1 — Backend (port 3001)**
+```bash
 cd mean-project/backend
 npm install
-npm start  # or USE_MEMORY_SERVER=false npm start for Atlas
+npm start
+# Uses in-memory MongoDB by default (USE_MEMORY_SERVER=true)
+```
 
-# Terminal 2 - Frontend 4200
+**Terminal 2 — Frontend (port 4200)**
+```bash
 cd mean-project/frontend
 npm install
 npx ng serve --port 4200
-# Then http://localhost:4200 -> Login -> Students
+```
 
-# Seed demo data (optional)
-cd backend && npm run seed  # creates admin@sec.edu/admin123 + 3 students
+Open http://localhost:4200 → Register or Login → Manage Students
 
-### Ports
-- 3001 backend API + serves Angular build at /index.html
-- 4200 frontend dev (ng serve)
-- 3000 Exp3, 3002 Exp2 legacy (unchanged)
+**Seed demo data (optional)**
+```bash
+cd mean-project/backend
+npm run seed
+# Creates: admin@sec.edu / admin123 + 3 sample students
+```
 
-### Features Implemented (Expt 5-10)
-- [x] Expt5: Standalone components, interpolation, binding, @Input/@Output
-- [x] Expt6: Router, reactive forms, validators
-- [x] Expt7: HttpClient + StudentService CRUD, CORS
-- [x] Expt8: JWT register/login, auth middleware, route guard, interceptor
-- [x] Expt9: Multer upload /api/upload + /api/students/:id/avatar, FormData
-- [x] Expt10: ng build (287kB), Atlas ready, CORS prod, static serve
+---
 
-### Test Accounts
-- admin@sec.edu / admin123 (seeded)
-- Or register new via /register
+## Environment Variables
 
-### Deployment
-See DEPLOYMENT.md
+Copy `backend/.env.example` to `backend/.env`:
+
+```env
+PORT=3001
+MONGO_URI=mongodb://127.0.0.1:27017/meanlab
+JWT_SECRET=change_this_in_production
+USE_MEMORY_SERVER=true        # false → uses MONGO_URI / Atlas
+FRONTEND_URL=                 # set in production e.g. https://your-app.vercel.app
+```
+
+---
+
+## API Endpoints
+
+| Method | Route | Auth | Description |
+|--------|-------|------|-------------|
+| POST | `/api/auth/register` | — | Register user |
+| POST | `/api/auth/login` | — | Login, returns JWT |
+| GET | `/api/students` | ✓ | List all students |
+| POST | `/api/students` | ✓ | Add student |
+| PUT | `/api/students/:id` | ✓ | Update student |
+| DELETE | `/api/students/:id` | ✓ | Delete student |
+| POST | `/api/upload` | ✓ | Upload file (Multer) |
+| PATCH | `/api/students/:id/avatar` | ✓ | Set student avatar |
+| GET | `/api/health` | — | Health check |
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Angular 21 (standalone components, reactive forms) |
+| Backend | Node.js + Express 4 |
+| Database | MongoDB via Mongoose 8 (memory-server or Atlas) |
+| Auth | JWT (jsonwebtoken 9) + bcryptjs |
+| File Upload | Multer 1.4 |
+| HTTP Client | Angular HttpClient + auth interceptor |
+
+---
+
+## Features (Experiments 5–10)
+
+- **Exp 5** — Standalone components, interpolation, `@Input`/`@Output`, event binding
+- **Exp 6** — Angular Router, reactive forms, validators
+- **Exp 7** — HttpClient, StudentService CRUD, CORS
+- **Exp 8** — JWT register/login, auth middleware, route guard, HTTP interceptor
+- **Exp 9** — Multer file upload (`/api/upload`, `/api/students/:id/avatar`), FormData
+- **Exp 10** — `ng build` production bundle, MongoDB Atlas support, static file serving
+
+---
+
+## Production Build (Single Server)
+
+```bash
+cd mean-project/frontend
+npx ng build
+# Copy dist/frontend/browser → backend/public/browser
+
+cd ../backend
+USE_MEMORY_SERVER=false npm start
+# Serves API at http://localhost:3001/api
+# Serves Angular SPA at http://localhost:3001/
+```
+
+---
+
+## Deployment
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for Render (backend) + Vercel/Netlify (frontend) steps.
+
+---
+
+## Test Accounts
+
+| Email | Password |
+|-------|----------|
+| admin@sec.edu | admin123 |
+| *(or register a new account via `/register`)* | |
